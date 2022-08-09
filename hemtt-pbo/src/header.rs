@@ -35,7 +35,7 @@ pub struct Header {
 impl Header {
     pub fn read<I: Read>(input: &mut I) -> Result<(Self, usize), Error> {
         let mut size = 4 * 5;
-        let filename = input.read_cstring()?.replace("/", "\\");
+        let filename = input.read_cstring()?.replace('/', "\\");
         size += filename.as_bytes().len() + 1;
         trace!("reading header of size: {} bytes", size);
         Ok((

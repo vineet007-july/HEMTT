@@ -52,7 +52,7 @@ impl<I: Seek + Read> WritablePbo<I> {
     pub fn remove_file<S: Into<String>>(&mut self, filename: S) -> Option<(I, Header)> {
         let filename = filename.into();
         trace!("removing file from struct: {}", filename);
-        self.files.remove(&filename.replace("/", "\\"))
+        self.files.remove(&filename.replace('/', "\\"))
     }
 
     /// Adds or updates a file to the PBO, returns the old file if it existed
@@ -61,11 +61,11 @@ impl<I: Seek + Read> WritablePbo<I> {
         filename: S,
         mut file: I,
     ) -> Result<Option<(I, Header)>> {
-        let filename = filename.into().replace("/", "\\");
+        let filename = filename.into().replace('/', "\\");
         trace!("adding file to struct: {}", filename);
         let size = file.seek(SeekFrom::End(0))? as u32;
         Ok(self.files.insert(
-            filename.replace("/", "\\"),
+            filename.replace('/', "\\"),
             (
                 file,
                 Header {
@@ -95,7 +95,7 @@ impl<I: Seek + Read> WritablePbo<I> {
         } else {
             Ok(self
                 .files
-                .insert(filename.replace("/", "\\"), (file, header)))
+                .insert(filename.replace('/', "\\"), (file, header)))
         }
     }
 
@@ -104,7 +104,7 @@ impl<I: Seek + Read> WritablePbo<I> {
         &mut self,
         filename: S,
     ) -> Result<Option<Cursor<Box<[u8]>>>> {
-        let filename_owned = filename.into().replace("/", "\\");
+        let filename_owned = filename.into().replace('/', "\\");
         let filename = filename_owned.as_str();
         if self.files.contains_key(filename) {
             let (mut data, header) = self.files.remove(filename).unwrap();

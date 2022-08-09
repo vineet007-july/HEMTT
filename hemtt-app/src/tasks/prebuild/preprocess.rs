@@ -81,9 +81,9 @@ impl<'a> VfsResolver<'a> {
 impl<'a> Resolver for VfsResolver<'a> {
     fn resolve(&self, _root: &str, from: &str, to: &str) -> Result<ResolvedFile, ArmaConfigError> {
         trace!("Resolving from {} to {}", from, to);
-        let to_f = to.replace("\\", "/");
+        let to_f = to.replace('\\', "/");
         let to = to_f.trim_start_matches('/');
-        let from_f = from.replace("\\", "/");
+        let from_f = from.replace('\\', "/");
         let from = from_f.trim_start_matches('/');
         let mut buf = String::new();
         let new_path = self
@@ -102,14 +102,14 @@ impl<'a> Resolver for VfsResolver<'a> {
             Err(e) => {
                 // Check for prefix
                 if let Some((prefix, path)) = self.1.inner().iter().find(|(prefix, _)| {
-                    trace!("Checking prefix {}", prefix.replace("\\", "/"));
-                    to.starts_with(&prefix.replace("\\", "/"))
+                    trace!("Checking prefix {}", prefix.replace('\\', "/"));
+                    to.starts_with(&prefix.replace('\\', "/"))
                 }) {
                     let new_path = self
                         .0
                         .join(path.trim_start_matches('/'))
                         .unwrap()
-                        .join(to.trim_start_matches(&format!("{}/", prefix.replace("\\", "/"))))
+                        .join(to.trim_start_matches(&format!("{}/", prefix.replace('\\', "/"))))
                         .unwrap();
                     new_path
                         .open_file()

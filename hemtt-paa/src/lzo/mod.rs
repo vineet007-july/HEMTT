@@ -152,8 +152,8 @@ mod tests {
             let mut v = Vec::with_capacity(dst_len);
             let dst = libc::malloc(dst_len);
             let mut ctx = LzoContext::new();
-            let mut dst = slice::from_raw_parts_mut(dst as *mut u8, dst_len);
-            let result = ctx.compress_to_slice(&data, &mut dst);
+            let dst = slice::from_raw_parts_mut(dst as *mut u8, dst_len);
+            let result = ctx.compress_to_slice(&data, dst);
             assert!(result.is_ok());
             let dst = result.unwrap();
             let result = ctx.compress(&data, &mut v);
@@ -162,8 +162,8 @@ mod tests {
 
             let dec_dst = libc::malloc(mem::size_of_val(&data));
             let result_len = mem::size_of_val(&data);
-            let mut dec_dst = slice::from_raw_parts_mut(dec_dst as *mut u8, result_len);
-            let result = LzoContext::decompress_to_slice(dst, &mut dec_dst);
+            let dec_dst = slice::from_raw_parts_mut(dec_dst as *mut u8, result_len);
+            let result = LzoContext::decompress_to_slice(dst, dec_dst);
             assert!(result.is_ok());
             let result = result.unwrap();
             println!("{}", result.len());

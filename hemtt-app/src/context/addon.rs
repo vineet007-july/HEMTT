@@ -22,7 +22,7 @@ impl<'a, 'b> AddonContext<'a, 'b> {
             global.project.prefix(),
             addon.source()
         )
-        .replace("/", "\\");
+        .replace('/', "\\");
         let prefix = if prefix_file.exists()? {
             let mut source = String::new();
             prefix_file.open_file()?.read_to_string(&mut source)?;
@@ -45,7 +45,7 @@ impl<'a, 'b> AddonContext<'a, 'b> {
                 }
             }
             let prefix = hemtt_handlebars::render(
-                &prefix.replace("\\", "\\\\"),
+                &prefix.replace('\\', "\\\\"),
                 &Variables::from(global.project()),
             )
             .unwrap()

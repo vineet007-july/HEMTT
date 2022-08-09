@@ -27,7 +27,7 @@ pub fn populate(source: VfsPath, dest: VfsPath, ctx: &mut AddonContext) -> Resul
     ctx.debug(&format!("`{}` => `{}`", source.as_str(), dest.as_str()));
     let mut buf = String::new();
     source.open_file()?.read_to_string(&mut buf)?;
-    match hemtt_handlebars::render(&buf.replace("\\", "\\\\"), &{
+    match hemtt_handlebars::render(&buf.replace('\\', "\\\\"), &{
         let mut vars = Variables::from(ctx.global().project());
         vars.append(ctx.addon().into());
         vars

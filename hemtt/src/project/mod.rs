@@ -203,31 +203,30 @@ impl Project {
     }
 
     pub fn read() -> Result<Self, HEMTTError> {
-        let mut p = Config::new();
+        let mut p = Config::builder();
         let root = Self::find_root()?;
         debug!("Root Directory: {:?}", root);
         std::env::set_current_dir(root)?;
 
         if PathBuf::from("hemtt.toml").exists() {
             // Single file (toml)
-            p.merge(File::with_name("hemtt.toml").required(true))
-                .map_err(|e| HEMTTError::Generic(e.to_string()))?;
+            p = p.add_source(File::with_name("hemtt.toml").required(true));
         } else {
             // Project folder
             if !PathBuf::from(".hemtt/").exists() {
                 return Err(HEMTTError::NoProjectFound);
             }
-            p.merge(File::with_name(".hemtt/base").required(true))
-                .map_err(|e| HEMTTError::Generic(e.to_string()))?;
-            // p.merge(File::with_name(&format!(".hemtt/{}", "base")).required(false)).map_err(|e| HEMTTError::Generic(e.to_string()));
-            p.merge(File::with_name(".hemtt/local").required(false))
-                .map_err(|e| HEMTTError::Generic(e.to_string()))?;
+            p = p
+                .add_source(File::with_name(".hemtt/base").required(true))
+                .add_source(File::with_name(".hemtt/local").required(false));
         }
 
-        p.merge(Environment::with_prefix("app"))
-            .map_err(|e| HEMTTError::Generic(e.to_string()))?;
+        p = p.add_source(Environment::with_prefix("app"));
 
-        p.try_into().map_err(|e| HEMTTError::Generic(e.to_string()))
+        p.build()
+            .map_err(|e| HEMTTError::Generic(e.to_string()))?
+            .try_deserialize()
+            .map_err(|e| HEMTTError::Generic(e.to_string()))
     }
 
     /// The name of the project
@@ -272,7 +271,7 @@ impl Project {
         } else {
             Ok(format!(
                 "{}-{}",
-                self.name().replace(" ", "_").to_lowercase(),
+                self.name().replace(' ', "_").to_lowercase(),
                 self.version()
             ))
         }

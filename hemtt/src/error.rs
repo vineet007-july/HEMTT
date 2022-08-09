@@ -127,7 +127,7 @@ impl std::error::Error for HEMTTError {
             Self::IO(ref e) => Some(e),
             Self::IOPath(ref e) => Some(&e.source),
             Self::SemVer(ref e) => Some(e),
-            Self::Vfs(ref e) => Some(e),
+            Self::Vfs(_) => Some(self),
             Self::Handlebars(ref e) => Some(e),
 
             // Addon

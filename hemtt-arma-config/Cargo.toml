@@ -9,8 +9,8 @@ hemtt = { path = "../hemtt" }
 hemtt-io = { path = "../hemtt-io" }
 byteorder = "1.4"
 log = "0.4"
-pest = "2.1"
-pest_derive = "2.1"
+pest = "2.2"
+pest_derive = "2.2"
 thiserror = "1.0"
 
 serde = { version = "1.0", features = ["derive"], optional = true}

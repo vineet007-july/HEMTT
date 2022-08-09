@@ -107,7 +107,7 @@ impl<I: Seek + Read> ReadablePbo<I> {
     /// Finds a header if it exists
     pub fn header(&mut self, filename: &str) -> Option<Header> {
         for header in &self.headers {
-            if header.filename() == filename.replace("/", "\\").as_str() {
+            if header.filename() == filename.replace('/', "\\").as_str() {
                 return Some(header.clone());
             }
         }
@@ -176,7 +176,7 @@ impl<I: Seek + Read> ReadablePbo<I> {
 
     /// Retrieves a file from a PBO
     pub fn retrieve(&mut self, filename: &str) -> Option<Cursor<Vec<u8>>> {
-        let filename_owned = filename.replace("/", "\\");
+        let filename_owned = filename.replace('/', "\\");
         let filename = filename_owned.as_str();
         self.input.seek(SeekFrom::Start(self.blob_start)).unwrap();
         for h in &self.headers {

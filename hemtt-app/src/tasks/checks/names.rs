@@ -46,7 +46,7 @@ impl Task for ValidName {
         let re = Regex::new(r"^([A-z0-9\-]+)$").unwrap();
         if !re.is_match(addon.name()) {
             ctx.warn("addon name is not following standards");
-            ctx.info(&format!("try using `{}`", &addon.name().replace(" ", "_")));
+            ctx.info(&format!("try using `{}`", &addon.name().replace(' ', "_")));
         }
         // WARN: addons shouldn't start with the mod prefix
         if !p.prefix().is_empty() && addon.name().starts_with(p.prefix()) {

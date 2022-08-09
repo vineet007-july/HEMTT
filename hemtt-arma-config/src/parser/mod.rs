@@ -36,7 +36,7 @@ pub struct AST {
 /// hemtt_arma_config::parse(content, "doc test");
 /// ```
 pub fn parse(source: &str, context: &str) -> Result<AST, String> {
-    let clean = source.replace("\r", "");
+    let clean = source.replace('\r', "");
     let pair = ConfigParser::parse(Rule::file, &clean)
         .unwrap_or_else(|_| {
             let out = std::env::temp_dir().join("failed.txt");
