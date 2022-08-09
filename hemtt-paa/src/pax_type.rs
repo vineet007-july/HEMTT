@@ -1,5 +1,7 @@
 use std::io::Read;
 
+use texpresso::Format;
+
 #[derive(Debug, Clone)]
 pub enum PaXType {
     DXT1,
@@ -53,23 +55,24 @@ impl PaXType {
     }
 }
 
-impl From<PaXType> for image::dxt::DXTVariant {
+impl From<PaXType> for Format {
     fn from(pax: PaXType) -> Self {
         match pax {
-            PaXType::DXT1 => Self::DXT1,
-            PaXType::DXT3 => Self::DXT3,
-            PaXType::DXT5 => Self::DXT5,
+            PaXType::DXT1 => Self::Bc1,
+            PaXType::DXT3 => Self::Bc2,
+            PaXType::DXT5 => Self::Bc3,
             _ => unimplemented!(),
         }
     }
 }
 
-impl From<image::dxt::DXTVariant> for PaXType {
-    fn from(pax: image::dxt::DXTVariant) -> Self {
+impl From<Format> for PaXType {
+    fn from(pax: Format) -> Self {
         match pax {
-            image::dxt::DXTVariant::DXT1 => Self::DXT1,
-            image::dxt::DXTVariant::DXT3 => Self::DXT3,
-            image::dxt::DXTVariant::DXT5 => Self::DXT5,
+            Format::Bc1 => Self::DXT1,
+            Format::Bc2 => Self::DXT3,
+            Format::Bc3 => Self::DXT5,
+            _ => unimplemented!(),
         }
     }
 }

@@ -9,5 +9,6 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 byteorder = "1.4"
-image = "0.23"
+image = "0.24.3"
+texpresso = "2.0.1"
 libc = "0.2"
