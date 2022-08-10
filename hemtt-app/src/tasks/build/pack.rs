@@ -25,7 +25,10 @@ impl Task for Pack {
 
         for entry in ctx.global().vfs().join(ctx.addon().source())?.walk_dir()? {
             let entry = entry?;
-            if entry.filename().contains(".ht.") || entry.filename().starts_with('$') {
+            if entry.filename().contains(".ht.")
+                || entry.filename().starts_with('$')
+                || entry.filename().ends_with(".hemtt_map")
+            {
                 continue;
             }
             if entry.metadata()?.file_type == VfsFileType::File {

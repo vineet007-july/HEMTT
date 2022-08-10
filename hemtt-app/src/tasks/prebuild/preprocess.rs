@@ -39,7 +39,7 @@ pub fn preprocess(path: VfsPath, ctx: &mut AddonContext) -> Result<(), HEMTTErro
     let mut fmap = path
         .parent()
         .unwrap()
-        .join(path.filename() + ".map")?
+        .join(path.filename() + ".hemtt_map")?
         .create_file()?;
     // TODO remove processed.unwrap()
     let render = hemtt_arma_config::render(processed.unwrap());

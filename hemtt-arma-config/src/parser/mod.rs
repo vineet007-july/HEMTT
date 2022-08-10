@@ -33,7 +33,7 @@ pub struct AST {
 ///
 /// ```
 /// let content = "value = 123;";
-/// hemtt_arma_config::parse(content, "doc test");
+/// hemtt_arma_config::parse(content, "doc test", None);
 /// ```
 pub fn parse(
     source: &str,

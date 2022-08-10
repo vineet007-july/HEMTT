@@ -37,7 +37,7 @@ impl Task for Rapify {
                 let mut map = entry
                     .parent()
                     .unwrap()
-                    .join(entry.filename() + ".map")?
+                    .join(entry.filename() + ".hemtt_map")?
                     .open_file()?;
                 let simplified =
                     hemtt_arma_config::simplify::Config::from_ast(hemtt_arma_config::parse(
