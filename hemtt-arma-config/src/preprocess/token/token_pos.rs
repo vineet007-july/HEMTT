@@ -1,26 +1,27 @@
 use pest::iterators::Pair;
 
+use crate::preprocess::LineCol;
+
 use super::{Rule, Token};
 
 #[derive(Clone, Debug)]
 pub struct TokenPos {
-    start: (usize, (usize, usize)),
-    end: (usize, (usize, usize)),
+    start: LineCol,
+    end: LineCol,
     path: String,
     token: Token,
 }
 
 impl TokenPos {
-    pub fn new<S: Into<String>>(path: S, pair: Pair<'_, Rule>) -> Self {
+    pub fn new<S: Into<String>>(
+        path: S,
+        pair: Pair<'_, Rule>,
+        start: LineCol,
+        end: LineCol,
+    ) -> Self {
         Self {
-            start: (
-                pair.as_span().start_pos().pos(),
-                pair.as_span().start_pos().line_col(),
-            ),
-            end: (
-                pair.as_span().end_pos().pos(),
-                pair.as_span().end_pos().line_col(),
-            ),
+            start,
+            end,
             path: path.into(),
             token: Token::from(pair),
         }
@@ -44,11 +45,11 @@ impl TokenPos {
         }
     }
 
-    pub fn start(&self) -> (usize, (usize, usize)) {
+    pub fn start(&self) -> LineCol {
         self.start
     }
 
-    pub fn end(&self) -> (usize, (usize, usize)) {
+    pub fn end(&self) -> LineCol {
         self.end
     }
 

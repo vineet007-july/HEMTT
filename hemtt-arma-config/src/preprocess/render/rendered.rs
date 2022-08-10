@@ -58,30 +58,29 @@ impl Rendered {
                         title,
                         token.to_string()
                     )
-                }
-                // Token::Word(_) => {}
-                // Token::Alpha(_) => {}
-                // Token::Underscore => {}
-                // Token::Dash => {}
-                // Token::Assignment => {}
-                // Token::LeftBrace => {}
-                // Token::RightBrace => {}
-                // Token::LeftBracket => {}
-                // Token::RightBracket => {}
-                // Token::LeftParenthesis => {}
-                // Token::RightParenthesis => {}
-                // Token::Colon => {}
-                // Token::Semicolon => {}
-                // Token::Directive => {}
-                // Token::Escape => {}
-                // Token::Comma => {}
-                // Token::Decimal => {}
-                // Token::DoubleQuote => {}
-                // Token::SingleQuote => {}
-                // Token::Char(_) => {}
-                // Token::Newline => {}
-                // Token::Whitespace(_) => {}
-                // Token::EOI => {}
+                } // Token::Word(_) => {}
+                  // Token::Alpha(_) => {}
+                  // Token::Underscore => {}
+                  // Token::Dash => {}
+                  // Token::Assignment => {}
+                  // Token::LeftBrace => {}
+                  // Token::RightBrace => {}
+                  // Token::LeftBracket => {}
+                  // Token::RightBracket => {}
+                  // Token::LeftParenthesis => {}
+                  // Token::RightParenthesis => {}
+                  // Token::Colon => {}
+                  // Token::Semicolon => {}
+                  // Token::Directive => {}
+                  // Token::Escape => {}
+                  // Token::Comma => {}
+                  // Token::Decimal => {}
+                  // Token::DoubleQuote => {}
+                  // Token::SingleQuote => {}
+                  // Token::Char(_) => {}
+                  // Token::Newline => {}
+                  // Token::Whitespace(_) => {}
+                  // Token::EOI => {}
             }
         }
         super::html::wrap(content)

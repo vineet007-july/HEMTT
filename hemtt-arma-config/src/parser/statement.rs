@@ -1,6 +1,6 @@
 use super::Node;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone)]
 pub enum Statement {
     Config(Vec<Node>),
     Array(Vec<Node>),

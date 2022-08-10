@@ -2,12 +2,8 @@ use std::path::PathBuf;
 
 use super::{Rule, Statement};
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone)]
 pub struct Node {
-    /// (Pos from Start, (Line, Col))
-    pub start: (usize, (usize, usize)),
-    /// (Pos from Start, (Line, Col))
-    pub end: (usize, (usize, usize)),
     /// Original text of the line
     pub line: String,
     pub statement: Statement,
@@ -22,14 +18,6 @@ impl Node {
         pair: pest::iterators::Pair<Rule>,
     ) -> Result<Node, String> {
         let node = Node {
-            start: (
-                pair.as_span().start_pos().pos(),
-                pair.as_span().start_pos().line_col(),
-            ),
-            end: (
-                pair.as_span().end_pos().pos(),
-                pair.as_span().end_pos().line_col(),
-            ),
             line: pair.as_span().as_str().to_string(),
             statement: match pair.as_rule() {
                 Rule::config => Statement::Config(

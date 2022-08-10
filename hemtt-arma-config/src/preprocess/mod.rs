@@ -20,12 +20,26 @@ use ifstate::{IfState, IfStates};
 
 use crate::{resolver::Resolver, ArmaConfigError};
 
+pub type LineCol = (usize, (usize, usize));
+
 pub fn tokenize(source: &str, path: &str) -> Result<Vec<TokenPos>, Error<Rule>> {
     let mut tokens = Vec::new();
 
     let pairs = PreProcessParser::parse(Rule::file, source)?;
+    let mut line = 1;
+    let mut col = 1;
+    let mut offset = 0;
     for pair in pairs {
-        tokens.push(TokenPos::new(path, pair))
+        let start = (offset, (line, col));
+        if let Rule::newline = pair.as_rule() {
+            line += 1;
+            col = 1;
+        } else {
+            col += pair.as_str().len();
+        }
+        offset += pair.as_str().len();
+        let end = (offset, (line, col));
+        tokens.push(TokenPos::new(path, pair, start, end));
     }
 
     Ok(tokens)
