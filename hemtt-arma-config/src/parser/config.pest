@@ -8,6 +8,7 @@ propexpand = { identarray ~ "+=" ~ array }
 ident = @{ ( ASCII_ALPHANUMERIC | "_" )+ }
 value = _{
     bool |
+    hex |
     float |
     integer |
     string_wrapper
@@ -17,6 +18,7 @@ identarray = ${ ident ~ "[]" }
 
 bool = @{ "true" | "false" }
 integer = @{ "-"? ~ ASCII_DIGIT+ }
+hex = @{ "0x" ~ ( ASCII_DIGIT | "A" | "B" | "C" | "D" | "E" | "F" )+ }
 float = @{ "-"? ~ ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT* }
 string_wrapper = _{ "\"" ~ string ~ "\"" }
 string = @{ ( "\"\"" | (!"\"" ~ ANY) )* }

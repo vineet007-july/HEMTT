@@ -18,7 +18,8 @@ pub struct Class {
 pub enum Entry {
     Str(String),
     Float(f32),
-    Int(i32),
+    Int32(i32),
+    Int64(i64),
     Array(Array),
     Class(Class),
     Invisible(Vec<(String, Entry)>),
@@ -29,7 +30,7 @@ impl From<Entry> for ArrayElement {
         match e {
             Entry::Str(v) => Self::Str(v),
             Entry::Float(v) => Self::Float(v),
-            Entry::Int(v) => Self::Int(v),
+            Entry::Int32(v) => Self::Int32(v),
             Entry::Array(v) => Self::Array(v),
             _ => panic!("Invalid item was found in array: {:?}", e),
         }
@@ -46,7 +47,8 @@ pub struct Array {
 pub enum ArrayElement {
     Str(String),
     Float(f32),
-    Int(i32),
+    Int32(i32),
+    Int64(i64),
     Array(Array),
 }
 
@@ -160,7 +162,13 @@ pub fn get_entry(node: Node) -> Result<Option<(String, Entry)>, ArmaConfigError>
 
 pub fn get_value(statement: Statement, expand: bool) -> Result<Entry, ArmaConfigError> {
     Ok(match statement {
-        Statement::Integer(val) => Entry::Int(val),
+        Statement::Integer(val) => {
+            if val > i32::MAX as i64 {
+                Entry::Int64(val as i64)
+            } else {
+                Entry::Int32(val as i32)
+            }
+        }
         Statement::Float(val) => Entry::Float(val),
         Statement::Str(val) => Entry::Str(val),
         Statement::Array(val) => Entry::Array(Array {

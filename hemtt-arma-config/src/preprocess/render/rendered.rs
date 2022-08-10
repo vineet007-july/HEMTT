@@ -7,8 +7,8 @@ use crate::preprocess::token::{Token, TokenPos};
 /// 0: Rendered Line
 /// 1: Rendered Column
 /// 2: Source File
-/// 3: Source Line
-/// 4: Source Column
+/// 3: Source Start (Line, Column)
+/// 4: Source End (Line, Column)
 /// 5: Source Token
 pub type LineMap = Vec<(usize, usize, String, (usize, usize), (usize, usize), Token)>;
 

@@ -83,4 +83,10 @@ mod tests {
         let ast = parse("value = 123;", "test", None);
         println!("{:?}", ast);
     }
+
+    #[test]
+    fn hex() {
+        let ast = parse("value = 0x123;", "test", None);
+        println!("{:?}", ast);
+    }
 }

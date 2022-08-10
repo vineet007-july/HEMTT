@@ -5,7 +5,7 @@ pub enum Statement {
     Config(Vec<Node>),
     Array(Vec<Node>),
     Float(f32),
-    Integer(i32),
+    Integer(i64),
     Str(String),
     Bool(bool),
     Property {

@@ -12,7 +12,8 @@ impl ArrayElement {
         match self {
             ArrayElement::Str(s) => s.len() + 2,
             ArrayElement::Float(_f) => 5,
-            ArrayElement::Int(_i) => 5,
+            ArrayElement::Int32(_i) => 5,
+            ArrayElement::Int64(_i) => 9,
             ArrayElement::Array(a) => {
                 1 + compressed_int_len(a.elements.len() as u32)
                     + usize::sum(a.elements.iter().map(|e| e.rapified_length()))
@@ -37,7 +38,7 @@ impl Array {
                     output.write_f32::<LittleEndian>(*f)?;
                     written += 5;
                 }
-                ArrayElement::Int(i) => {
+                ArrayElement::Int32(i) => {
                     output.write_all(&[2])?;
                     output.write_i32::<LittleEndian>(*i)?;
                     written += 5;
@@ -45,6 +46,11 @@ impl Array {
                 ArrayElement::Array(a) => {
                     output.write_all(&[3])?;
                     written += 1 + a.write_rapified(output)?;
+                }
+                ArrayElement::Int64(i) => {
+                    output.write_all(&[6])?;
+                    output.write_i64::<LittleEndian>(*i)?;
+                    written += 9;
                 }
             }
         }
@@ -64,9 +70,11 @@ impl Array {
             } else if element_type == 1 {
                 elements.push(ArrayElement::Float(input.read_f32::<LittleEndian>()?));
             } else if element_type == 2 {
-                elements.push(ArrayElement::Int(input.read_i32::<LittleEndian>()?));
+                elements.push(ArrayElement::Int32(input.read_i32::<LittleEndian>()?));
             } else if element_type == 3 {
                 elements.push(ArrayElement::Array(Array::read_rapified(input)?));
+            } else if element_type == 6 {
+                elements.push(ArrayElement::Int64(input.read_i64::<LittleEndian>()?));
             } else {
                 return Err(ArmaConfigError::InvalidInput(format!(
                     "Unrecognized array element type: {}",
@@ -88,7 +96,8 @@ impl Entry {
         match self {
             Entry::Str(s) => s.len() + 3,
             Entry::Float(_f) => 6,
-            Entry::Int(_i) => 6,
+            Entry::Int32(_i) => 6,
+            Entry::Int64(_i) => 10,
             Entry::Array(a) => {
                 let len = 1
                     + compressed_int_len(a.elements.len() as u32)
@@ -168,7 +177,7 @@ impl Class {
                         output.write_f32::<LittleEndian>(*f)?;
                         written += name.len() + 7;
                     }
-                    Entry::Int(i) => {
+                    Entry::Int32(i) => {
                         output.write_all(&[1, 2])?;
                         output.write_cstring(name)?;
                         output.write_i32::<LittleEndian>(*i)?;
@@ -199,6 +208,12 @@ impl Class {
                             class_offset += c.write_rapified(&mut cursor, class_offset)?;
                             class_bodies.push(cursor);
                         }
+                    }
+                    Entry::Int64(i) => {
+                        output.write_all(&[1, 6])?;
+                        output.write_cstring(name)?;
+                        output.write_i64::<LittleEndian>(*i)?;
+                        written += name.len() + 7;
                     }
                     Entry::Invisible(_) => {}
                 }
@@ -254,7 +269,9 @@ impl Class {
                 } else if subtype == 1 {
                     entries.push((name, Entry::Float(input.read_f32::<LittleEndian>()?)));
                 } else if subtype == 2 {
-                    entries.push((name, Entry::Int(input.read_i32::<LittleEndian>()?)));
+                    entries.push((name, Entry::Int32(input.read_i32::<LittleEndian>()?)));
+                } else if subtype == 6 {
+                    entries.push((name, Entry::Int64(input.read_i64::<LittleEndian>()?)));
                 } else {
                     return Err(ArmaConfigError::InvalidInput(format!(
                         "Unrecognized variable entry subtype: {}.",

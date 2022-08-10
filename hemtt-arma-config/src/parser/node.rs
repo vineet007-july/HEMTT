@@ -85,6 +85,9 @@ impl Node {
                 ),
                 Rule::float => Statement::Float(pair.as_str().parse().unwrap()),
                 Rule::integer => Statement::Integer(pair.as_str().parse().unwrap()),
+                Rule::hex => {
+                    Statement::Integer(i64::from_str_radix(&pair.as_str()[2..], 16).unwrap())
+                }
                 Rule::string => Statement::Str(String::from(pair.as_str())),
                 Rule::ident => Statement::Ident(String::from(pair.as_str())),
                 Rule::identarray => {
