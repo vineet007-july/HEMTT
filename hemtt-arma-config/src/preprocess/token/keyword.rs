@@ -1,5 +1,6 @@
-#[derive(Clone, Debug, PartialEq)]
-#[cfg_attr(feature = "maps", derive(serde::Serialize))]
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum Keyword {
     Class,
     Delete,

@@ -3,7 +3,14 @@ use std::fmt::Write;
 
 use crate::preprocess::token::{Token, TokenPos};
 
-pub type LineMap = Vec<(usize, usize, String, Token)>;
+/// A reference from the rendered AST to the original source
+/// 0: Rendered Line
+/// 1: Rendered Column
+/// 2: Source File
+/// 3: Source Line
+/// 4: Source Column
+/// 5: Source Token
+pub type LineMap = Vec<(usize, usize, String, (usize, usize), (usize, usize), Token)>;
 
 pub struct Rendered {
     tokens: Vec<TokenPos>,
@@ -31,12 +38,10 @@ impl Rendered {
         content
     }
 
-    #[cfg(feature = "maps")]
     pub fn export_map_json(&self) -> Result<String, serde_json::Error> {
         serde_json::to_string(&self.map)
     }
 
-    #[cfg(feature = "maps")]
     pub fn export_html(&self) -> String {
         let mut content = String::new();
         for token in &self.tokens {

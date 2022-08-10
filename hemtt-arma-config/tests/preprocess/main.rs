@@ -84,9 +84,9 @@ value = "SAY_HI(Brett)";
 #[test]
 fn recursive() {
     let content = r#"
-#define ADD_PERIOD(NAME) NAME.
-#define MR(NAME) Mr. ADD_PERIOD(NAME)
-#define SAY_HI(NAME) Hi MR(NAME)
+#define ADD_PERIOD(MACRO_NAME) MACRO_NAME.
+#define MR(MACRO_NAME) Mr. ADD_PERIOD(MACRO_NAME)
+#define SAY_HI(MACRO_NAME) Hi MR(MACRO_NAME)
 
 value = "SAY_HI(Brett)";
 "#;
@@ -316,4 +316,26 @@ class _xx_item {
 "#,
         config.export()
     );
+}
+
+#[test]
+fn empty_define() {
+    let content = r#"
+#ifdef _RESINCL_HPP
+shown = false;
+#endif    
+#ifndef _RESINCL_HPP
+#define _RESINCL_HPP
+#endif
+#indef _RESINCL_HPP
+shown = true;
+#endif
+"#;
+    let config = hemtt_arma_config::preprocess(
+        hemtt_arma_config::tokenize(content, "").unwrap(),
+        ".",
+        hemtt_arma_config::resolver::Basic,
+    );
+    let config = hemtt_arma_config::render(config.unwrap());
+    assert_eq!("\n    \n\n\nshown = true;\n\n", config.export());
 }

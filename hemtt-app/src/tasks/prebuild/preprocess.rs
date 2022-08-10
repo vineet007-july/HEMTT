@@ -36,12 +36,15 @@ pub fn preprocess(path: VfsPath, ctx: &mut AddonContext) -> Result<(), HEMTTErro
         ),
     );
     let mut f = path.create_file()?;
+    let mut fmap = path
+        .parent()
+        .unwrap()
+        .join(path.filename() + ".map")?
+        .create_file()?;
     // TODO remove processed.unwrap()
-    f.write_all(
-        hemtt_arma_config::render(processed.unwrap())
-            .export()
-            .as_bytes(),
-    )?;
+    let render = hemtt_arma_config::render(processed.unwrap());
+    f.write_all(render.export().as_bytes())?;
+    fmap.write_all(render.export_map_json().unwrap().as_bytes())?;
     Ok(())
 }
 

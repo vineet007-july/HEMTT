@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-pub use self::rendered::Rendered;
+pub use self::rendered::{LineMap, Rendered};
 
 use super::{token::Token, TokenPos};
 
@@ -23,8 +23,11 @@ pub fn render(source: Vec<TokenPos>) -> Rendered {
                 cc,
                 token.to_string().len(),
                 token.path().to_owned(),
+                token.start().1,
+                token.end().1,
                 token.token().clone(),
             ));
+            cc += token.to_string().len();
         }
     }
     Rendered::new(source, map)

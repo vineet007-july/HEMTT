@@ -34,10 +34,18 @@ impl Task for Rapify {
                 ctx.debug(&format!("rapify: {:?}", entry.as_str()));
                 let mut buf = String::new();
                 entry.open_file()?.read_to_string(&mut buf)?;
-                let simplified = hemtt_arma_config::simplify::Config::from_ast(
-                    hemtt_arma_config::parse(&buf, entry.as_str())?,
-                )
-                .unwrap();
+                let mut map = entry
+                    .parent()
+                    .unwrap()
+                    .join(entry.filename() + ".map")?
+                    .open_file()?;
+                let simplified =
+                    hemtt_arma_config::simplify::Config::from_ast(hemtt_arma_config::parse(
+                        &buf,
+                        entry.as_str(),
+                        Some(serde_json::from_reader(&mut map).unwrap()),
+                    )?)
+                    .unwrap();
                 let mut out = if entry.filename() == "config.cpp" {
                     entry.parent().unwrap().join("config.bin")?
                 } else {

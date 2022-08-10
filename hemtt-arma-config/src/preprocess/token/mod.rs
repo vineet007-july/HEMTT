@@ -5,13 +5,13 @@ pub struct PreProcessParser;
 mod keyword;
 pub use keyword::Keyword;
 mod token_pos;
+use serde::{Deserialize, Serialize};
 pub use token_pos::TokenPos;
 mod whitespace;
 pub use whitespace::Whitespace;
 
 #[allow(clippy::upper_case_acronyms)]
-#[derive(Clone, Debug, PartialEq)]
-#[cfg_attr(feature = "maps", derive(serde::Serialize))]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum Token {
     Keyword(Keyword),
     Word(String),

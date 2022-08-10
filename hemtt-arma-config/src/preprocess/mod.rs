@@ -11,7 +11,7 @@ use token::Whitespace;
 pub use token::{PreProcessParser, Rule, Token, TokenPos};
 
 mod render;
-pub use render::render;
+pub use render::{render, LineMap};
 
 mod define;
 use define::Define;

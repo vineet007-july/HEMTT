@@ -785,6 +785,7 @@ dependencies = [
  "rayon",
  "regex",
  "semver",
+ "serde_json",
  "simplelog",
  "state",
  "strum",

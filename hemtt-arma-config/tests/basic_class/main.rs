@@ -20,7 +20,8 @@ fn rapify() {
     )
     .unwrap();
     let simplified = hemtt_arma_config::simplify::Config::from_ast(
-        hemtt_arma_config::parse(&hemtt_arma_config::render(config).export(), "test").unwrap(),
+        hemtt_arma_config::parse(&hemtt_arma_config::render(config).export(), "test", None)
+            .unwrap(),
     )
     .unwrap();
     let mut buf = Vec::new();
