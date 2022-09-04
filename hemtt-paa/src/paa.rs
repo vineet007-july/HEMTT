@@ -55,7 +55,7 @@ impl Paa {
         }
     }
 
-    pub fn write(image: RgbaImage, output: &mut impl Write) -> Result<(), Error> {
+    pub fn write(image: &mut RgbaImage, output: &mut impl Write) -> Result<(), Error> {
         let algo: Format = PaXType::DXT5.clone().into();
         output.write_all(&PaXType::DXT5.as_bytes())?; // 2
 
