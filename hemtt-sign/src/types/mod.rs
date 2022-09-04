@@ -23,7 +23,7 @@ pub fn generate_hashes<I: Seek + Read>(
 
     let mut h = Hasher::new(MessageDigest::sha1()).unwrap();
     h.update(hash1).unwrap();
-    h.update(&*namehash(pbo)).unwrap();
+    h.update(&namehash(pbo)).unwrap();
     if let Some(prefix) = pbo.extensions().get("prefix") {
         h.update(prefix.as_bytes()).unwrap();
         if !prefix.ends_with('\\') {
@@ -33,8 +33,8 @@ pub fn generate_hashes<I: Seek + Read>(
     let hash2 = &*h.finish().unwrap();
 
     h = Hasher::new(MessageDigest::sha1()).unwrap();
-    h.update(&*filehash(pbo, version)).unwrap();
-    h.update(&*namehash(pbo)).unwrap();
+    h.update(&filehash(pbo, version)).unwrap();
+    h.update(&namehash(pbo)).unwrap();
     if let Some(prefix) = pbo.extensions().get("prefix") {
         h.update(prefix.as_bytes()).unwrap();
         if !prefix.ends_with('\\') {
@@ -128,7 +128,7 @@ pub fn filehash<I: Seek + Read>(pbo: &mut ReadablePbo<I>, version: BISignVersion
             }
         }
         let cursor = pbo.retrieve(header.filename()).unwrap();
-        h.update((&cursor).get_ref()).unwrap();
+        h.update(cursor.get_ref()).unwrap();
         nothing = false;
     }
 

@@ -28,7 +28,7 @@ impl Task for ModTime {
     }
 
     fn check(&self, ctx: &mut AddonContext) -> Result<(), HEMTTError> {
-        let modified = modtime(&ctx.addon().source())?;
+        let modified = modtime(ctx.addon().source())?;
         let target = ctx.addon().destination(
             &hemtt::Project::find_root()?,
             Some(ctx.global().project().prefix()),

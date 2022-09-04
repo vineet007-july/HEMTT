@@ -17,7 +17,7 @@ pub fn helper(
 
     let repo = Repository::open(".").map_err(|e| RenderError::new(e.to_string()))?;
 
-    match params.get(0) {
+    match params.first() {
         Some(&"id") => {
             // SHA-1 Commit Hash
             let rev = repo

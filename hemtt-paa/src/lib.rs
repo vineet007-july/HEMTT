@@ -1,8 +1,8 @@
 mod lzo;
 mod mipmap;
+mod paa;
 mod paa_file;
 mod pax_type;
-mod read;
 
 pub use image::ImageOutputFormat as Format;
 

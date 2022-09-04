@@ -44,7 +44,7 @@ impl MipMap {
         if compress {
             crate::lzo::LzoContext::decompress_to_slice(data, &mut buffer).unwrap();
             self.format.decompress(
-                &*buffer,
+                &buffer,
                 usize::from(width_2),
                 usize::from(self.height),
                 &mut out_buffer,

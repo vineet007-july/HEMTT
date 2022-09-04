@@ -11,7 +11,7 @@ mod whitespace;
 pub use whitespace::Whitespace;
 
 #[allow(clippy::upper_case_acronyms)]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Token {
     Keyword(Keyword),
     Word(String),

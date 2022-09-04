@@ -41,7 +41,7 @@ impl Template for CBA {
     fn new_addon(&self, addon: &Addon) -> Result<(), HEMTTError> {
         let source = addon.source();
         if !self.path.join(source).exists() {
-            std::fs::create_dir_all(&source)?;
+            std::fs::create_dir_all(source)?;
         }
         for file in AddonAssets::iter() {
             let mut f = create_file!({

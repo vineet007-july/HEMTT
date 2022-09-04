@@ -23,7 +23,7 @@ pub struct AddonsMetaDataList {
     items: HashMap<String, AddonsMetaDataListItem>,
 }
 
-#[derive(Debug, Deserialize, PartialEq, Clone)]
+#[derive(Debug, Deserialize, PartialEq, Eq, Clone)]
 pub struct AddonsMetaDataListItem {
     className: String,
     name: String,

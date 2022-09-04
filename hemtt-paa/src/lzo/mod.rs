@@ -7,7 +7,7 @@ const LZO1X_1_MEM_COMPRESS: usize = 8192 * 16;
 const LZO1X_MEM_COMPRESS: usize = LZO1X_1_MEM_COMPRESS;
 
 #[repr(i32)]
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 #[allow(dead_code)]
 #[allow(non_camel_case_types)]
 pub enum LzoError {

@@ -36,11 +36,11 @@ impl Command for Verify {
 
     fn run(&self, args: &clap::ArgMatches) -> Result<(), BISignError> {
         let mut publickey_file =
-            File::open(&args.value_of("public").unwrap()).expect("Failed to open public key");
+            File::open(args.value_of("public").unwrap()).expect("Failed to open public key");
         let publickey = BIPublicKey::read(&mut publickey_file).expect("Failed to read public key");
 
         let pbo_path = args.value_of("file").unwrap();
-        let mut pbo_file = File::open(&pbo_path).expect("Failed to open PBO");
+        let mut pbo_file = File::open(pbo_path).expect("Failed to open PBO");
         let pbo_size = pbo_file.metadata().unwrap().len();
         let mut pbo = ReadablePbo::from(&mut pbo_file).expect("Failed to read PBO");
 

@@ -21,7 +21,7 @@ impl Task for Clear {
     fn check_single(&self, ctx: &mut AddonListContext) -> Result<(), HEMTTError> {
         let re = Regex::new(r"(?m)(.+?)\.pbo$").unwrap();
         let mut targets = Vec::new();
-        for data in &*ctx.addons() {
+        for data in ctx.addons() {
             targets.push(data.addon().pbo(Some(ctx.global().project().prefix())));
         }
         for dir in AddonLocation::iter() {

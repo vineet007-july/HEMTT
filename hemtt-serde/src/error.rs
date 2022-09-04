@@ -6,7 +6,7 @@ use serde::{de, ser};
 // information in its error type, for example the line and column at which the
 // error occurred, the byte offset into the input, or the current key being
 // processed.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Error {
     // One or more variants that can be created by data structures through the
     // `ser::Error` and `de::Error` traits. For example the Serialize impl for

@@ -56,7 +56,7 @@ fn deprecated_values() -> Result<(), HEMTTError> {
         for line in data.lines() {
             let value = line.parse::<toml::Value>();
             if let Ok(Table(t)) = value {
-                let old = items.iter().find(|x| t.contains_key((**x).0));
+                let old = items.iter().find(|x| t.contains_key(x.0));
                 if let Some(o) = old {
                     warn!(
                         "deprecated value `{}` in `{}` - use `{}`",
